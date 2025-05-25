@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaik Athar Hussain | AWS Cloud Engineer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --highlight: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #38b000;
+            --warning: #ffaa00;
+            --danger: #ef233c;
+            
+            --gradient-1: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            --gradient-2: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            --gradient-3: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%);
+            --gradient-4: linear-gradient(135deg, #38b000 0%, #70e000 100%);
+            --gradient-5: linear-gradient(135deg, #ffaa00 0%, #ffbe0b 100%);
+            --gradient-6: linear-gradient(135deg, #7209b7 0%, #b5179e 100%);
+            --gradient-7: linear-gradient(135deg, #f72585 0%, #7209b7 50%, #3a0ca3 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            min-height: 100vh;
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--highlight);
+            text-shadow: 0 0 10px rgba(247, 37, 133, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Card Style */
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--gradient-7);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .profile-picture {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--gradient-3);
+            padding: 5px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            animation: pulse 2s ease-in-out infinite alternate;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.5);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        
+        .profile-picture-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 800;
+        }
+        
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .profile-picture::before {
+            content: 'SAH';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-weight: 800;
+            z-index: 1;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+        }
+        
+        .profile-picture.has-image::before {
+            display: none;
+        }
+        
+        .upload-overlay {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2;
+            border-radius: 50%;
+        }
+        
+        .profile-picture:hover .upload-overlay {
+            opacity: 1;
+        }
+        
+        .profile-info h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, #4cc9f0, #f72585);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .profile-info h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-info a {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Navigation */
+        .nav-container {
+            background: var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: white;
+            padding: 0.8rem 1.8rem;
+            margin: 0.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        nav a:hover,
+        nav a.active {
+            background: var(--gradient-3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Sections */
+        section {
+            padding: 5rem 0;
+            position: relative;
+            background-color: var(--light);
+        }
+        
+        section:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: var(--gradient-4);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+        }
+        
+        /* About Section */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .about-content > p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--dark);
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .additional-skills {
+            margin-top: 3rem;
+        }
+        
+        .additional-skills h3 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .skill-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border-top: 5px solid var(--accent);
+        }
+        
+        .skill-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-box h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .skill-box p {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .skill-category {
+            flex: 1;
+            min-width: 350px;
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-category:nth-child(1) { border-top: 5px solid var(--primary); }
+        .skill-category:nth-child(2) { border-top: 5px solid var(--highlight); }
+        .skill-category:nth-child(3) { border-top: 5px solid var(--success); }
+        
+        .skill-category h3 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .skill-item {
+            background: rgba(67, 97, 238, 0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .skill-item:hover {
+            background: var(--gradient-1);
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* Projects Section */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-card:nth-child(1) .project-header { background: var(--gradient-1); }
+        .project-card:nth-child(2) .project-header { background: var(--gradient-2); }
+        .project-card:nth-child(3) .project-header { background: var(--gradient-4); }
+        
+        .project-header {
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .project-body {
+            padding: 2rem;
+            color: var(--dark);
+        }
+        
+        .technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech-tag {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+        
+        .project-details ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .project-details li {
+            position: relative;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .project-details li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1rem;
+            color: var(--highlight);
+        }
+        
+        /* Education and Certifications */
+        .education-certifications {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+        
+        .education-card, .certification-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .education-card:hover, .certification-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        .education-card { border-top: 5px solid var(--primary); }
+        .certification-card { border-top: 5px solid var(--highlight); }
+        
+        .education-card h3, .certification-card h3 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .edu-item, .cert-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .edu-item { border-left-color: var(--primary); }
+        .cert-item { border-left-color: var(--highlight); }
+        
+        .edu-item:hover, .cert-item:hover {
+            background: white;
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .edu-item h4, .cert-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .edu-item p, .cert-item p {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+        
+        /* Languages */
+        .languages-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .language-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 160px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-item:nth-child(1) { border-top: 5px solid var(--primary); }
+        .language-item:nth-child(2) { border-top: 5px solid var(--highlight); }
+        .language-item:nth-child(3) { border-top: 5px solid var(--success); }
+        
+        .language-name {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .proficiency {
+            font-size: 1rem;
+            color: var(--dark);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--gradient-7);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-social a {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-social a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .footer-links {
+            margin-top: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-picture {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .profile-info h1 {
+                font-size: 2.2rem;
+            }
+            
+            .profile-info h2 {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .skill-category {
+                min-width: 280px;
+            }
+            
+            .education-certifications {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-3);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gradient-2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header id="home">
+        <div class="container">
+            <div class="profile-content">
+                <div class="profile-picture" title="Click to upload your profile picture" id="profile-container">
+                    <img id="profile-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1' style='opacity:0'/%3E" alt="Shaik Athar Hussain">
+                    <div class="upload-overlay">
+                        <span>Click to upload</span>
+                    </div>
+                    <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                </div>
+                <div class="profile-info">
+                    <h1>Shaik Athar Hussain</h1>
+                    <h2>AWS Cloud Engineer | AWS Solution Architect</h2>
+                    <div class="contact-info">
+                        <a href="mailto:shaikather20th@gmail.com">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                            </svg>
+                            shaikather20th@gmail.com
+                        </a>
+                        <a href="tel:+918074352960">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
+                            +91-8074352960
+                        </a>
+                        <a href="https://www.linkedin.com/in/ather-shaik-88b25b308" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                        <a href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                            </svg>
+                            Hyderabad, India
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="container">
+            <nav>
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#languages">Languages</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p>Detail-oriented AWS Cloud Engineer with strong expertise in solution architecture and cloud infrastructure. Proficient in implementing and managing AWS services including EC2 and S3, with a focus on creating secure, scalable systems. Proven ability to deliver technical solutions through multiple successful project implementations. Currently pursuing a degree in Computer Science with a passion for cloud technologies.</p>
+                <div class="additional-skills">
+                    <h3>Additional Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-box">
+                            <h4>Problem-solving</h4>
+                            <p>Analytical approach to technical challenges with creative solutions</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4>Communication</h4>
+                            <p>Clear documentation and presentation of technical concepts</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4>Collaboration</h4>
+                            <p>Experience working in Agile development environments</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4>Time Management</h4>
+                            <p>Consistent delivery of projects within defined timelines</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4>Adaptability</h4>
+                            <p>Quick learner with ability to master new technologies efficiently</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Cloud & AWS</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">AWS EC2</div>
+                        <div class="skill-item">AWS S3</div>
+                        <div class="skill-item">Solution Architecture</div>
+                        <div class="skill-item">IAM</div>
+                        <div class="skill-item">CloudFormation</div>
+                        <div class="skill-item">VPC</div>
+                        <div class="skill-item">Lambda</div>
+                        <div class="skill-item">CloudWatch</div>
+                        <div class="skill-item">CloudFront</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">HTML</div>
+                        <div class="skill-item">CSS</div>
+                        <div class="skill-item">JavaScript</div>
+                        <div class="skill-item">Web Development</div>
+                        <div class="skill-item">CI/CD Pipelines</div>
+                        <div class="skill-item">Version Control</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Infrastructure & Security</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">Linux Administration</div>
+                        <div class="skill-item">Network Configuration</div>
+                        <div class="skill-item">Security Best Practices</div>
+                        <div class="skill-item">Infrastructure as Code</div>
+                        <div class="skill-item">Disaster Recovery Planning</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-container">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Fast and Secure File Sharing System</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="technologies">
+                            <span class="tech-tag">AWS S3</span>
+                            <span class="tech-tag">CloudFront</span>
+                            <span class="tech-tag">Lambda</span>
+                            <span class="tech-tag">IAM</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                        <div class="project-details">
+                            <ul>
+                                <li>Developed an enterprise-grade file sharing platform with end-to-end encryption and access controls</li>
+                                <li>Implemented AWS S3 for durable storage with versioning and lifecycle policies</li>
+                                <li>Integrated CloudFront CDN to optimize global content delivery and enhance performance</li>
+                                <li>Created Lambda functions for automated file processing, thumbnailing, and virus scanning</li>
+                                <li>Established comprehensive IAM policies and security groups to enforce least-privilege access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Cost Construction Prediction System</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="technologies">
+                            <span class="tech-tag">AWS EC2</span>
+                            <span class="tech-tag">S3</span>
+                            <span class="tech-tag">RDS</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
+                        <div class="project-details">
+                            <ul>
+                                <li>Engineered a predictive analytics solution for construction cost estimation with ML algorithms</li>
+                                <li>Built a scalable data processing pipeline using AWS services for real-time analysis</li>
+                                <li>Designed and implemented a PostgreSQL database on RDS for structured data storage</li>
+                                <li>Created interactive dashboards for visualization and reporting of cost predictions</li>
+                                <li>Implemented automated model retraining to maintain prediction accuracy over time</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>E-commerce Platform Design</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="technologies">
+                            <span class="tech-tag">AWS EC2</span>
+                            <span class="tech-tag">S3</span>
+                            <span class="tech-tag">RDS</span>
+                            <span class="tech-tag">Elastic Beanstalk</span>
+                            <span class="tech-tag">HTML/CSS/JS</span>
+                        </div>
+                        <div class="project-details">
+                            <ul>
+                                <li>Architected a high-availability e-commerce solution leveraging AWS microservices</li>
+                                <li>Deployed auto-scaling EC2 instances behind load balancers to handle traffic spikes</li>
+                                <li>Implemented secure payment processing with PCI DSS compliance measures</li>
+                                <li>Created CI/CD pipeline for automated testing and deployment processes</li>
+                                <li>Designed responsive front-end interface with optimized user experience</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education and Certifications Section -->
+    <section id="education">
+        <div class="container">
+            <h2 class="section-title">Education & Certifications</h2>
+            <div class="education-certifications">
+                <div class="education-card">
+                    <h3>Education</h3>
+                    <div class="edu-item">
+                        <h4>Bachelor of Engineering, Computer Science</h4>
+                        <p>Deccan College of Engineering and Technology</p>
+                        <p>Pursuing (Expected Graduation: 2025)</p>
+                    </div>
+                    <div class="edu-item">
+                        <h4>Intermediate</h4>
+                        <p>Sultan Uloom Junior College</p>
+                        <p>Completed</p>
+                    </div>
+                    <div class="edu-item">
+                        <h4>Secondary Education (10th)</h4>
+                        <p>Tulasi High School</p>
+                        <p>Completed</p>
+                    </div>
+                </div>
+                <div class="certification-card">
+                    <h3>Certifications</h3>
+                    <div class="cert-item">
+                        <h4>AWS Certified Solutions Architect - Associate</h4>
+                        <p>In Progress</p>
+                    </div>
+                    <div class="cert-item">
+                        <h4>AWS Cloud Practitioner</h4>
+                        <p>Certified</p>
+                    </div>
+                    <div class="cert-item">
+                        <h4>Professional Development</h4>
+                        <p>Ongoing through AWS training programs and workshops</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Languages Section -->
+    <section id="languages">
+        <div class="container">
+            <h2 class="section-title">Languages</h2>
+            <div class="languages-container">
+                <div class="language-item">
+                    <div class="language-name">English</div>
+                    <div class="proficiency">Professional</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Hindi</div>
+                    <div class="proficiency">Native</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Urdu</div>
+                    <div class="proficiency">Native</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <h3 style="margin-bottom: 1rem; font-size: 2rem;">Get In Touch</h3>
+                <p style="margin-bottom: 2rem; opacity: 0.9;">Ready to bring your cloud projects to life? Let's connect!</p>
+                <div class="footer-social">
+                    <a href="mailto:shaikather20th@gmail.com" title="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ather-shaik-88b25b308" target="_blank" title="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                        </svg>
+                    </a>
+                    <a href="tel:+918074352960" title="Phone">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#education">Education</a>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2024 Shaik Athar Hussain. All rights reserved. | Crafted with 💜 for the cloud</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Profile picture upload functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileContainer = document.getElementById('profile-container');
+            const profileUpload = document.getElementById('profile-upload');
+            const profileImage = document.getElementById('profile-image');
+
+            profileContainer.addEventListener('click', function() {
+                profileUpload.click();
+            });
+
+            profileUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profileImage.src = e.target.result;
+                        profileContainer.classList.add('has-image');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Update active navigation link on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id], header[id]');
+                const navLinks = document.querySelectorAll('nav a');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Add entrance animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.skill-category, .project-card, .education-card, .certification-card, .language-item, .skill-box').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

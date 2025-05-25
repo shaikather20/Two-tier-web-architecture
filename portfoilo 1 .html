@@ -1,0 +1,795 @@
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const profilePicture = document.querySelector('.profile-picture');
+            const profileImage = document.getElementById('profile-image');
+            const fileInput = document.getElementById('profile-upload');
+            
+            // Add click event to the profile picture container
+            profilePicture.addEventListener('click', function() {
+                fileInput.click(); // Trigger the file input click
+            });
+            
+            // Handle file selection
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        if (file.type.startsWith('image/')) {
+                            profileImage.src = e.target.result;
+                        } else if (file.type.startsWith('video/')) {
+                            // For videos, we'll use the first frame or just show a video icon
+                            profileImage.src = e.target.result;
+                        }
+                        
+                        // Save to localStorage for persistence
+                        try {
+                            localStorage.setItem('userProfilePic', e.target.result);
+                        } catch (e) {
+                            console.log('Could not save file to localStorage - likely too large');
+                        }
+                    };
+                    
+                    reader.readAsDataURL(file);
+                } else if (file) {
+                    alert('Please select a valid image or video file');
+                }
+            });
+            
+            // Check if we have a saved profile picture
+            const savedPic = localStorage.getItem('userProfilePic');
+            if (savedPic) {
+                profileImage.src = savedPic;
+            }
+        });
+    </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaik Athar Hussain | AWS Cloud Engineer</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --text-color: #333;
+            --light-text: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+            color: var(--light-text);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-picture {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid var(--secondary-color);
+            margin-bottom: 1rem;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-color);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile-picture:hover .upload-overlay {
+            opacity: 1;
+        }
+        
+        .profile-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-info h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--light-text);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .contact-info a {
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-info a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Navigation */
+        .nav-container {
+            background-color: var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        
+        nav a {
+            color: white;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover,
+        nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+        
+        section:nth-child(even) {
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .skill-category {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-category h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .skill-category h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .skill-item {
+            background-color: var(--light-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .skill-item:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Projects Section */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .project-body {
+            padding: 1.5rem;
+        }
+        
+        .technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-tag {
+            background-color: var(--light-bg);
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .project-details {
+            margin-top: 1rem;
+        }
+        
+        .project-details ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+        
+        .project-details li {
+            position: relative;
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+        }
+        
+        .project-details li::before {
+            content: '→';
+            position: absolute;
+            left: -1rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Education and Certifications */
+        .education-certifications {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .education-card, .certification-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .edu-item, .cert-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .edu-item h4, .cert-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .edu-item p, .cert-item p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Languages */
+        .languages-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .language-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 120px;
+        }
+        
+        .language-name {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .proficiency {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .footer-links {
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 0.5rem;
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-info h1 {
+                font-size: 2rem;
+            }
+            
+            .profile-info h2 {
+                font-size: 1.2rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+            }
+            
+            nav a {
+                margin-bottom: 0.5rem;
+            }
+            
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header id="home">
+        <div class="container">
+            <div class="profile-content">
+                <div class="profile-picture" title="Click to upload your profile picture">
+                    <img id="profile-image" src="/api/placeholder/160/160" alt="Shaik Athar Hussain">
+                    <div class="upload-overlay">
+                        <span>Click to upload</span>
+                    </div>
+                    <input type="file" id="profile-upload" accept="image/*,video/*" style="display: none;">
+                </div>
+                <div class="profile-info">
+                    <h1>Shaik Athar Hussain</h1>
+                    <h2>AWS Cloud Engineer | AWS Solution Architect</h2>
+                    <div class="contact-info">
+                        <a href="mailto:shaikather20th@gmail.com">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                            </svg>
+                            shaikather20th@gmail.com
+                        </a>
+                        <a href="tel:+918074352960">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
+                            +91-8074352960
+                        </a>
+                        <a href="https://www.linkedin.com/in/ather-shaik-88b25b308" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                        <a href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                            </svg>
+                            Hyderabad, India
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="container">
+            <nav>
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#languages">Languages</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p>Detail-oriented AWS Cloud Engineer with strong expertise in solution architecture and cloud infrastructure. Proficient in implementing and managing AWS services including EC2 and S3, with a focus on creating secure, scalable systems. Proven ability to deliver technical solutions through multiple successful project implementations. Currently pursuing a degree in Computer Science with a passion for cloud technologies.</p>
+                <div class="additional-skills" style="margin-top: 2rem;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Additional Skills</h3>
+                    <div class="skills-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="skill-box">
+                            <h4 style="color: var(--secondary-color);">Problem-solving</h4>
+                            <p>Analytical approach to technical challenges with creative solutions</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4 style="color: var(--secondary-color);">Communication</h4>
+                            <p>Clear documentation and presentation of technical concepts</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4 style="color: var(--secondary-color);">Collaboration</h4>
+                            <p>Experience working in Agile development environments</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4 style="color: var(--secondary-color);">Time Management</h4>
+                            <p>Consistent delivery of projects within defined timelines</p>
+                        </div>
+                        <div class="skill-box">
+                            <h4 style="color: var(--secondary-color);">Adaptability</h4>
+                            <p>Quick learner with ability to master new technologies efficiently</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Cloud & AWS</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">AWS EC2</div>
+                        <div class="skill-item">AWS S3</div>
+                        <div class="skill-item">Solution Architecture</div>
+                        <div class="skill-item">IAM</div>
+                        <div class="skill-item">CloudFormation</div>
+                        <div class="skill-item">VPC</div>
+                        <div class="skill-item">Lambda</div>
+                        <div class="skill-item">CloudWatch</div>
+                        <div class="skill-item">CloudFront</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">HTML</div>
+                        <div class="skill-item">CSS</div>
+                        <div class="skill-item">JavaScript</div>
+                        <div class="skill-item">Web Development</div>
+                        <div class="skill-item">CI/CD Pipelines</div>
+                        <div class="skill-item">Version Control</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Infrastructure & Security</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">Linux Administration</div>
+                        <div class="skill-item">Network Configuration</div>
+                        <div class="skill-item">Security Best Practices</div>
+                        <div class="skill-item">Infrastructure as Code</div>
+                        <div class="skill-item">Disaster Recovery Planning</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-container">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Fast and Secure File Sharing System</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="technologies">
+                            <span class="tech-tag">AWS S3</span>
+                            <span class="tech-tag">CloudFront</span>
+                            <span class="tech-tag">Lambda</span>
+                            <span class="tech-tag">IAM</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                        <div class="project-details">
+                            <ul>
+                                <li>Developed an enterprise-grade file sharing platform with end-to-end encryption and access controls</li>
+                                <li>Implemented AWS S3 for durable storage with versioning and lifecycle policies</li>
+                                <li>Integrated CloudFront CDN to optimize global content delivery and enhance performance</li>
+                                <li>Created Lambda functions for automated file processing, thumbnailing, and virus scanning</li>
+                                <li>Established comprehensive IAM policies and security groups to enforce least-privilege access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Cost Construction Prediction System</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="technologies">
+                            <span class="tech-tag">AWS EC2</span>
+                            <span class="tech-tag">S3</span>
+                            <span class="tech-tag">RDS</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
+                        <div class="project-details">
+                            <ul>
+                                <li>Engineered a predictive analytics solution for construction cost estimation with ML algorithms</li>
+                                <li>Built a scalable data processing pipeline using AWS services for real-time analysis</li>
+                                <li>Designed and implemented a PostgreSQL database on RDS for structured data storage</li>
+                                <li>Created interactive dashboards for visualization and reporting of cost predictions</li>
+                                <li>Implemented automated model retraining to maintain prediction accuracy over time</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>E-commerce Platform Design</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="technologies">
+                            <span class="tech-tag">AWS EC2</span>
+                            <span class="tech-tag">S3</span>
+                            <span class="tech-tag">RDS</span>
+                            <span class="tech-tag">Elastic Beanstalk</span>
+                            <span class="tech-tag">HTML/CSS/JS</span>
+                        </div>
+                        <div class="project-details">
+                            <ul>
+                                <li>Architected a high-availability e-commerce solution leveraging AWS microservices</li>
+                                <li>Deployed auto-scaling EC2 instances behind load balancers to handle traffic spikes</li>
+                                <li>Implemented secure payment processing with PCI DSS compliance measures</li>
+                                <li>Created CI/CD pipeline for automated testing and deployment processes</li>
+                                <li>Designed responsive front-end interface with optimized user experience</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education and Certifications Section -->
+    <section id="education" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">Education & Certifications</h2>
+            <div class="education-certifications">
+                <div class="education-card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Education</h3>
+                    <div class="edu-item">
+                        <h4>Bachelor of Engineering, Computer Science</h4>
+                        <p>Deccan College of Engineering and Technology</p>
+                        <p>Pursuing (Expected Graduation: 2025)</p>
+                    </div>
+                    <div class="edu-item">
+                        <h4>Intermediate</h4>
+                        <p>Sultan Uloom Junior College</p>
+                        <p>Completed</p>
+                    </div>
+                    <div class="edu-item">
+                        <h4>Secondary Education (10th)</h4>
+                        <p>Tulasi High School</p>
+                        <p>Completed</p>
+                    </div>
+                </div>
+                <div class="certification-card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Certifications</h3>
+                    <div class="cert-item">
+                        <h4>AWS Certified Solutions Architect - Associate</h4>
+                        <p>In Progress</p>
+                    </div>
+                    <div class="cert-item">
+                        <h4>AWS Cloud Practitioner</h4>
+                        <p>Certified</p>
+                    </div>
+                    <div class="cert-item">
+                        <h4>Professional Development</h4>
+                        <p>Ongoing through AWS training programs and workshops</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Languages Section -->
+    <section id="languages">
+        <div class="container">
+            <h2 class="section-title">Languages</h2>
+            <div class="languages-container">
+                <div class="language-item">
+                    <div class="language-name">English</div>
+                    <div class="proficiency">Professional</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Hindi</div>
+                    <div class="proficiency">Native</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Urdu</div>
+                    <div class="proficiency">Native</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">Telugu</div>
+                    <div class="proficiency">Conversational</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <p>I'm always open to discussing new projects, job opportunities, or potential collaborations. Feel free to reach out!</p>
+                <div style="margin: 2rem 0; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="mailto:shaikather20th@gmail.com" style="display: flex; align-items: center; gap: 0.5rem; background-color: var(--secondary-color); color: white; padding: 0.75rem 1.5rem; border-radius: 4px; transition: all 0.3s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
