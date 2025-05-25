@@ -1,2 +1,3 @@
 # Two-tier-web-architecture
-In this project total 4 instance is working which is attached to a load balancer and each instance is showing different portfoilo and with DNS  Of Load balancer ALL portfoilo is working
+In this project, a total of four instances are running behind a load balancer. Each instance hosts a different portfolio, all accessible through the DNS of the load balancer. All portfolios are functioning correctly.
+
